@@ -1,0 +1,29 @@
+[
+  {
+    "mode": "clean",
+    "hydrationWarnings": 0,
+    "otherErrors": [],
+    "attrs": [
+      "",
+      null
+    ]
+  },
+  {
+    "mode": "body-extension",
+    "hydrationWarnings": 0,
+    "otherErrors": [],
+    "attrs": [
+      "vsc-initialized",
+      "true"
+    ]
+  },
+  {
+    "mode": "child-mismatch",
+    "hydrationWarnings": 1,
+    "otherErrors": [],
+    "attrs": [
+      "",
+      null
+    ]
+  }
+]

@@ -1,0 +1,5 @@
+import { Checkout } from '@/components/checkout';
+export const metadata = { title: 'Đặt hàng' };
+export default function Page() {
+  return <Checkout />;
+}

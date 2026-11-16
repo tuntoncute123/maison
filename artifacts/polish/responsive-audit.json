@@ -1,0 +1,382 @@
+{
+  "report": [
+    {
+      "width": 360,
+      "fonts": {
+        ".hero h1": "56px",
+        ".hero-copy>p": "16px",
+        ".button": "14px",
+        ".product-name": "16px",
+        ".price": "16px",
+        ".main-nav>a": "14px",
+        ".section-heading h2": "32px",
+        ".footer-main h4": "12px"
+      },
+      "routes": [
+        {
+          "path": "/",
+          "width": 360,
+          "scrollWidth": 360
+        },
+        {
+          "path": "/shop",
+          "width": 360,
+          "scrollWidth": 360
+        },
+        {
+          "path": "/product/linen-shirt",
+          "width": 360,
+          "scrollWidth": 360
+        },
+        {
+          "path": "/cart",
+          "width": 360,
+          "scrollWidth": 360
+        },
+        {
+          "path": "/checkout",
+          "width": 360,
+          "scrollWidth": 360
+        },
+        {
+          "path": "/track",
+          "width": 360,
+          "scrollWidth": 360
+        },
+        {
+          "path": "/about",
+          "width": 360,
+          "scrollWidth": 360
+        },
+        {
+          "path": "/policies",
+          "width": 360,
+          "scrollWidth": 360
+        },
+        {
+          "path": "/wishlist",
+          "width": 360,
+          "scrollWidth": 360
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "fonts": {
+        ".hero h1": "58.5px",
+        ".hero-copy>p": "16px",
+        ".button": "14px",
+        ".product-name": "16px",
+        ".price": "16px",
+        ".main-nav>a": "14px",
+        ".section-heading h2": "32px",
+        ".footer-main h4": "12px"
+      },
+      "routes": [
+        {
+          "path": "/",
+          "width": 390,
+          "scrollWidth": 390
+        },
+        {
+          "path": "/shop",
+          "width": 390,
+          "scrollWidth": 390
+        },
+        {
+          "path": "/product/linen-shirt",
+          "width": 390,
+          "scrollWidth": 390
+        },
+        {
+          "path": "/cart",
+          "width": 390,
+          "scrollWidth": 390
+        },
+        {
+          "path": "/checkout",
+          "width": 390,
+          "scrollWidth": 390
+        },
+        {
+          "path": "/track",
+          "width": 390,
+          "scrollWidth": 390
+        },
+        {
+          "path": "/about",
+          "width": 390,
+          "scrollWidth": 390
+        },
+        {
+          "path": "/policies",
+          "width": 390,
+          "scrollWidth": 390
+        },
+        {
+          "path": "/wishlist",
+          "width": 390,
+          "scrollWidth": 390
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "fonts": {
+        ".hero h1": "56px",
+        ".hero-copy>p": "16px",
+        ".button": "14px",
+        ".product-name": "16px",
+        ".price": "16px",
+        ".main-nav>a": "14px",
+        ".section-heading h2": "32px",
+        ".footer-main h4": "12px"
+      },
+      "routes": [
+        {
+          "path": "/",
+          "width": 768,
+          "scrollWidth": 768
+        },
+        {
+          "path": "/shop",
+          "width": 768,
+          "scrollWidth": 768
+        },
+        {
+          "path": "/product/linen-shirt",
+          "width": 768,
+          "scrollWidth": 768
+        },
+        {
+          "path": "/cart",
+          "width": 768,
+          "scrollWidth": 768
+        },
+        {
+          "path": "/checkout",
+          "width": 768,
+          "scrollWidth": 768
+        },
+        {
+          "path": "/track",
+          "width": 768,
+          "scrollWidth": 768
+        },
+        {
+          "path": "/about",
+          "width": 768,
+          "scrollWidth": 768
+        },
+        {
+          "path": "/policies",
+          "width": 768,
+          "scrollWidth": 768
+        },
+        {
+          "path": "/wishlist",
+          "width": 768,
+          "scrollWidth": 768
+        }
+      ]
+    },
+    {
+      "width": 1366,
+      "fonts": {
+        ".hero h1": "86.64px",
+        ".hero-copy>p": "16.2687px",
+        ".button": "14.2352px",
+        ".product-name": "16.2687px",
+        ".price": "16.2687px",
+        ".main-nav>a": "14.2352px",
+        ".section-heading h2": "37.075px",
+        ".footer-main h4": "12.1344px"
+      },
+      "routes": [
+        {
+          "path": "/",
+          "width": 1366,
+          "scrollWidth": 1366
+        },
+        {
+          "path": "/shop",
+          "width": 1366,
+          "scrollWidth": 1366
+        },
+        {
+          "path": "/product/linen-shirt",
+          "width": 1366,
+          "scrollWidth": 1366
+        },
+        {
+          "path": "/cart",
+          "width": 1366,
+          "scrollWidth": 1366
+        },
+        {
+          "path": "/checkout",
+          "width": 1366,
+          "scrollWidth": 1366
+        },
+        {
+          "path": "/track",
+          "width": 1366,
+          "scrollWidth": 1366
+        },
+        {
+          "path": "/about",
+          "width": 1366,
+          "scrollWidth": 1366
+        },
+        {
+          "path": "/policies",
+          "width": 1366,
+          "scrollWidth": 1366
+        },
+        {
+          "path": "/wishlist",
+          "width": 1366,
+          "scrollWidth": 1366
+        }
+      ]
+    },
+    {
+      "width": 1920,
+      "fonts": {
+        ".hero h1": "108.8px",
+        ".hero-copy>p": "18px",
+        ".button": "15.75px",
+        ".product-name": "18px",
+        ".price": "18px",
+        ".main-nav>a": "15.75px",
+        ".section-heading h2": "44px",
+        ".footer-main h4": "13px"
+      },
+      "routes": [
+        {
+          "path": "/",
+          "width": 1920,
+          "scrollWidth": 1920
+        },
+        {
+          "path": "/shop",
+          "width": 1920,
+          "scrollWidth": 1920
+        },
+        {
+          "path": "/product/linen-shirt",
+          "width": 1920,
+          "scrollWidth": 1920
+        },
+        {
+          "path": "/cart",
+          "width": 1920,
+          "scrollWidth": 1920
+        },
+        {
+          "path": "/checkout",
+          "width": 1920,
+          "scrollWidth": 1920
+        },
+        {
+          "path": "/track",
+          "width": 1920,
+          "scrollWidth": 1920
+        },
+        {
+          "path": "/about",
+          "width": 1920,
+          "scrollWidth": 1920
+        },
+        {
+          "path": "/policies",
+          "width": 1920,
+          "scrollWidth": 1920
+        },
+        {
+          "path": "/wishlist",
+          "width": 1920,
+          "scrollWidth": 1920
+        }
+      ]
+    },
+    {
+      "width": 2560,
+      "fonts": {
+        ".hero h1": "134.4px",
+        ".hero-copy>p": "20px",
+        ".button": "17.5px",
+        ".product-name": "20px",
+        ".price": "20px",
+        ".main-nav>a": "17.5px",
+        ".section-heading h2": "52px",
+        ".footer-main h4": "14px"
+      },
+      "routes": [
+        {
+          "path": "/",
+          "width": 2560,
+          "scrollWidth": 2560
+        },
+        {
+          "path": "/shop",
+          "width": 2560,
+          "scrollWidth": 2560
+        },
+        {
+          "path": "/product/linen-shirt",
+          "width": 2560,
+          "scrollWidth": 2560
+        },
+        {
+          "path": "/cart",
+          "width": 2560,
+          "scrollWidth": 2560
+        },
+        {
+          "path": "/checkout",
+          "width": 2560,
+          "scrollWidth": 2560
+        },
+        {
+          "path": "/track",
+          "width": 2560,
+          "scrollWidth": 2560
+        },
+        {
+          "path": "/about",
+          "width": 2560,
+          "scrollWidth": 2560
+        },
+        {
+          "path": "/policies",
+          "width": 2560,
+          "scrollWidth": 2560
+        },
+        {
+          "path": "/wishlist",
+          "width": 2560,
+          "scrollWidth": 2560
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "search": [
+    "Áo sơ mi Linen Essential"
+  ],
+  "styleLinks": [
+    {
+      "url": "http://localhost:3190/shop?category=%C3%81o%20s%C6%A1%20mi",
+      "count": 2
+    },
+    {
+      "url": "http://localhost:3190/shop?category=%C3%81o%20thun",
+      "count": 1
+    },
+    {
+      "url": "http://localhost:3190/shop?category=%C4%90%E1%BA%A7m%20%26%20Ch%C3%A2n%20v%C3%A1y",
+      "count": 1
+    }
+  ]
+}
