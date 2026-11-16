@@ -8,9 +8,8 @@
     "start": "next start --hostname 0.0.0.0",
     "typecheck": "tsc --noEmit",
     "test:e2e": "playwright test",
-    "admin:reset": "node scripts/reset-admin.mjs",
-    "format": "prettier --write src tests scripts playwright.config.ts next.config.ts",
-    "format:check": "prettier --check src tests scripts playwright.config.ts next.config.ts"
+    "format": "prettier --write src tests playwright.config.ts next.config.ts",
+    "format:check": "prettier --check src tests playwright.config.ts next.config.ts"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",

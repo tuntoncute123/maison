@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db, getProducts } from '@/lib/db';
+import { saveProduct, getProducts } from '@/lib/db';
 import { adminSession, safeOrigin } from '@/lib/auth';
 import { validateProduct, message } from '@/lib/validation';
 import { randomUUID } from 'node:crypto';
@@ -12,7 +12,7 @@ export async function POST(request: Request) {
   try {
     const product = validateProduct(await request.json());
     product.id = randomUUID();
-    db().prepare('INSERT INTO products VALUES (?, ?)').run(product.id, JSON.stringify(product));
+    saveProduct(product);
     return NextResponse.json(product, { status: 201 });
   } catch (e) {
     return NextResponse.json({ error: message(e) }, { status: 400 });

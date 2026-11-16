@@ -1,81 +1,76 @@
-import { DatabaseSync } from 'node:sqlite';
-import { mkdirSync } from 'node:fs';
-import path from 'node:path';
-import { randomBytes, scryptSync } from 'node:crypto';
-import { seedProducts } from './seed';
+import mockData from '@/data/db.json';
 import type { Product, Order } from './types';
 
-const globalDb = globalThis as unknown as { maisonDb?: DatabaseSync };
-export function db() {
-  if (globalDb.maisonDb) return globalDb.maisonDb;
-  // The database lives on the runtime disk, not in the application bundle.
-  const location = path.resolve(
-    /* turbopackIgnore: true */ process.env.DATABASE_PATH || './data/maison.sqlite',
-  );
-  mkdirSync(path.dirname(location), { recursive: true });
-  const connection = new DatabaseSync(location);
-  connection.exec(`PRAGMA journal_mode = WAL; PRAGMA foreign_keys = ON; PRAGMA busy_timeout = 5000;
-    CREATE TABLE IF NOT EXISTS products (id TEXT PRIMARY KEY, data TEXT NOT NULL);
-    CREATE TABLE IF NOT EXISTS orders (id TEXT PRIMARY KEY, data TEXT NOT NULL);
-    CREATE TABLE IF NOT EXISTS admins (email TEXT PRIMARY KEY, password TEXT NOT NULL, salt TEXT NOT NULL);
-    CREATE TABLE IF NOT EXISTS sessions (token TEXT PRIMARY KEY, email TEXT NOT NULL, expires INTEGER NOT NULL);
-    CREATE TABLE IF NOT EXISTS subscribers (email TEXT PRIMARY KEY, created_at TEXT NOT NULL);
-    CREATE TABLE IF NOT EXISTS settings (key TEXT PRIMARY KEY, value TEXT NOT NULL);
-    CREATE TABLE IF NOT EXISTS rate_limits (key TEXT PRIMARY KEY, attempts INTEGER NOT NULL, reset_at INTEGER NOT NULL);
-  `);
-  if (!connection.prepare("SELECT key FROM settings WHERE key = 'seeded'").get()) {
-    connection.exec('BEGIN IMMEDIATE');
-    try {
-      for (const product of seedProducts)
-        connection
-          .prepare('INSERT OR IGNORE INTO products VALUES (?, ?)')
-          .run(product.id, JSON.stringify(product));
-      connection.prepare("INSERT INTO settings VALUES ('seeded', '1')").run();
-      connection.exec('COMMIT');
-    } catch (error) {
-      connection.exec('ROLLBACK');
-      throw error;
-    }
-  }
-  if (!connection.prepare('SELECT email FROM admins LIMIT 1').get()) {
-    const email = process.env.ADMIN_EMAIL || 'admin@maison.vn';
-    const password = process.env.ADMIN_PASSWORD;
-    if (password) {
-      const salt = randomBytes(16).toString('hex');
-      connection
-        .prepare('INSERT INTO admins VALUES (?, ?, ?)')
-        .run(email.toLowerCase(), scryptSync(password, salt, 64).toString('hex'), salt);
-    }
-  }
-  globalDb.maisonDb = connection;
-  return connection;
+type MockDatabase = {
+  products: Product[];
+  orders: Order[];
+  subscribers: { email: string; createdAt: string }[];
+};
+type RateLimit = { attempts: number; resetAt: number };
+const globalMock = globalThis as unknown as {
+  maisonMock?: MockDatabase;
+  maisonRateLimits?: Map<string, RateLimit>;
+};
+
+// JSON is bundled at build time. Runtime edits are disposable, per-instance demo data.
+// Keep persistence behind these functions so a real database can replace this adapter.
+function store(): MockDatabase {
+  return (globalMock.maisonMock ??= structuredClone(mockData) as MockDatabase);
 }
+
 export function getProducts(): Product[] {
-  return (db().prepare('SELECT data FROM products ORDER BY rowid').all() as { data: string }[]).map(
-    (row) => JSON.parse(row.data),
-  );
+  return structuredClone(store().products);
 }
 export function getProduct(id: string): Product | undefined {
-  const row = db().prepare('SELECT data FROM products WHERE id = ?').get(id) as
-    { data: string } | undefined;
-  return row ? JSON.parse(row.data) : undefined;
+  return structuredClone(store().products.find((product) => product.id === id));
+}
+export function saveProduct(product: Product) {
+  const products = store().products;
+  const index = products.findIndex((entry) => entry.id === product.id);
+  if (index === -1) products.push(structuredClone(product));
+  else products[index] = structuredClone(product);
+}
+export function deleteProduct(id: string) {
+  store().products = store().products.filter((product) => product.id !== id);
 }
 export function getOrders(): Order[] {
-  return (
-    db().prepare('SELECT data FROM orders ORDER BY rowid DESC').all() as { data: string }[]
-  ).map((row) => JSON.parse(row.data));
+  return structuredClone(store().orders).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+}
+export function getOrder(id: string): Order | undefined {
+  return structuredClone(store().orders.find((order) => order.id === id));
+}
+export function saveOrder(order: Order) {
+  const orders = store().orders;
+  const index = orders.findIndex((entry) => entry.id === order.id);
+  if (index === -1) orders.push(structuredClone(order));
+  else orders[index] = structuredClone(order);
+}
+
+// The callback must stay synchronous: no request can interleave stock/order updates.
+export function transaction<T>(action: () => T extends PromiseLike<unknown> ? never : T): T {
+  const snapshot = structuredClone(store());
+  try {
+    return action();
+  } catch (error) {
+    globalMock.maisonMock = snapshot;
+    throw error;
+  }
+}
+
+export function addSubscriber(email: string) {
+  const subscribers = store().subscribers;
+  if (!subscribers.some((subscriber) => subscriber.email === email))
+    subscribers.push({ email, createdAt: new Date().toISOString() });
+}
+export function getSubscriberCount() {
+  return store().subscribers.length;
 }
 export function rateLimit(key: string, max: number, period: number) {
-  const conn = db();
+  const limits = (globalMock.maisonRateLimits ??= new Map<string, RateLimit>());
   const now = Date.now();
-  conn.prepare('DELETE FROM rate_limits WHERE reset_at < ?').run(now);
-  conn
-    .prepare(
-      'INSERT INTO rate_limits VALUES (?, 1, ?) ON CONFLICT(key) DO UPDATE SET attempts = attempts + 1',
-    )
-    .run(key, now + period);
-  const row = conn.prepare('SELECT attempts FROM rate_limits WHERE key = ?').get(key) as {
-    attempts: number;
-  };
-  return row.attempts <= max;
+  for (const [entryKey, entry] of limits) if (entry.resetAt <= now) limits.delete(entryKey);
+  const entry = limits.get(key) ?? { attempts: 0, resetAt: now + period };
+  entry.attempts += 1;
+  limits.set(key, entry);
+  return entry.attempts <= max;
 }

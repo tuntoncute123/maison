@@ -1,6 +1,4 @@
 import { defineConfig } from '@playwright/test';
-import { tmpdir } from 'node:os';
-import path from 'node:path';
 export default defineConfig({
   testDir: './tests',
   fullyParallel: false,
@@ -21,7 +19,9 @@ export default defineConfig({
     reuseExistingServer: false,
     timeout: 30000,
     env: {
-      DATABASE_PATH: path.join(tmpdir(), `maison-test-${process.pid}.sqlite`),
+      // Regression: the former SQLite path must never be opened or written.
+      DATABASE_PATH: '/sys/maison-read-only/maison.sqlite',
+      SESSION_SECRET: 'maison-e2e-session-secret',
       ADMIN_EMAIL: 'admin@maison.vn',
       ADMIN_PASSWORD: 'Maison@2026',
     },

@@ -1,5 +1,18 @@
 # Kiểm chứng bàn giao
 
+## Chuyển sang JSON mock — 16/11/2026
+
+- `src/data/db.json` chứa 8 sản phẩm, 3 đơn giả lập và 1 email mẫu; khách hàng tổng hợp từ các đơn này. SQLite và script reset tài khoản cũ đã được loại khỏi mã chạy.
+- `npm run build`, `npm run typecheck`, `npm run format:check`, `git diff --check`: đạt.
+- Playwright production: **9/9 bài đạt**, gồm 7 bài hiện có và 2 bài kiểm tra JSON mẫu/cookie giả mạo, hết hạn, sai tài khoản. Các luồng CRUD, đặt/tra cứu đơn, tính giá, trừ/hoàn tồn kho, nhận tin, hydration đều đạt.
+- Cấu hình test đặt `DATABASE_PATH=/sys/maison-read-only/maison.sqlite`; đường dẫn không ghi được này không còn ảnh hưởng ứng dụng.
+- Kiểm tra thêm hai tiến trình production với Node permission model: cho đọc file, worker và native addon (SWC), **không cấp quyền ghi file**. `/`, `/shop`, `/product/linen-shirt`, `/wishlist`, `/api/products` trả HTTP 200; đặt hàng giả lập thành công và không thay đổi JSON nguồn.
+- Hai tiến trình không có cấu hình tài khoản riêng vẫn đăng nhập được bằng tài khoản demo; cùng cookie được chấp nhận trên cả hai tiến trình. `VERCEL=1` bật cờ Secure cho cookie.
+- Xác nhận thay đổi tồn kho chỉ có ở tiến trình nhận đơn; tiến trình khác vẫn đọc số lượng ban đầu. Đây là giới hạn chủ đích của mock trong bộ nhớ, không phải lưu trữ cho cửa hàng thật.
+- Trình duyệt đã chạy ở 390, 768 và 1440px; đã xem ảnh trang chủ và quản trị desktop. Lượt này thay lớp dữ liệu, không sửa CSS/typography; không chạy lại audit 360/1366/1920/2560 hoặc zoom 200%.
+- Chromium dùng `LD_LIBRARY_PATH=/tmp/satthep-browser-libs/root/usr/lib/x86_64-linux-gnu` do môi trường thiếu thư viện mặc định.
+- Chưa push/deploy; kiểm chứng trên production server tại máy. Các biên bản bên dưới là lịch sử trước khi đổi sang JSON.
+
 ## Cập nhật hydration và giao diện — 16/11/2026
 
 - `npm run build`, `npm run typecheck`, `npm run format:check`: đạt.

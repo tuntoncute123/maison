@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db, rateLimit } from '@/lib/db';
+import { getOrder, rateLimit } from '@/lib/db';
 import { safeOrigin } from '@/lib/auth';
 export async function POST(request: Request) {
   if (!safeOrigin(request))
@@ -12,10 +12,7 @@ export async function POST(request: Request) {
         { error: 'Quá nhiều lần tra cứu. Vui lòng thử lại sau.' },
         { status: 429 },
       );
-    const row = db()
-      .prepare('SELECT data FROM orders WHERE id = ?')
-      .get(id.trim().toUpperCase()) as { data: string } | undefined;
-    const order = row ? JSON.parse(row.data) : null;
+    const order = getOrder(id.trim().toUpperCase());
     if (!order || order.phone !== phone.replace(/\s/g, ''))
       return NextResponse.json(
         { error: 'Không tìm thấy đơn hàng khớp với mã và số điện thoại.' },

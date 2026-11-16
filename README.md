@@ -1,79 +1,78 @@
 # MÂISON — Cửa hàng thời trang nam & nữ
 
-Ứng dụng full-stack bằng **Next.js 16 App Router, React 19, TypeScript**. Frontend và API dùng chung một dự án; dữ liệu sản phẩm, tài khoản quản trị, phiên đăng nhập, email đăng ký và đơn hàng lưu trong **SQLite** trên máy chủ. Giao diện tiếng Việt, responsive cho điện thoại, tablet và desktop.
+Ứng dụng **Next.js 16 App Router, React 19, TypeScript**, hiện chạy bằng **JSON mock data** để xem và thử website trên Vercel trước khi nối database thật. Không cần SQLite, dịch vụ database hay biến môi trường để mở cửa hàng.
 
 ## Chạy tại máy
 
-Yêu cầu **Node.js 24 LTS** (sử dụng module tích hợp `node:sqlite`).
+Yêu cầu **Node.js 24**.
 
 ```bash
 npm install
-cp .env.example .env.local
 npm run dev
 ```
 
 - Cửa hàng: `http://localhost:3000`
 - Quản trị: `http://localhost:3000/admin`
-- Tài khoản được khởi tạo lần đầu từ `.env.local`: `admin@maison.vn` / `Maison@2026`.
-
-Tài khoản trên dùng để trải nghiệm tại máy. Cấu hình thông tin quản trị riêng trước khi mở bán. Mật khẩu được băm bằng scrypt; cookie đăng nhập HttpOnly, SameSite=Lax, hết hạn sau 24 giờ. Khi phục vụ qua HTTPS, đặt `COOKIE_SECURE=true`.
+- Tài khoản demo mặc định: `admin@maison.vn` / `Maison@2026`.
+- Có thể sao chép `.env.example` thành `.env.local` và đổi `ADMIN_EMAIL`, `ADMIN_PASSWORD`. Biến môi trường được ưu tiên hơn tài khoản demo.
 
 ```bash
 npm run build
 npm run start
 ```
 
-Không có dịch vụ nào được publish hoặc deploy tự động.
+## Dữ liệu JSON
 
-## Chức năng
+Chỉnh **`src/data/db.json`** để thay đổi dữ liệu khởi đầu:
 
-**Người mua**
+- `products`: 8 sản phẩm mẫu, gồm ảnh, mô tả, giá, size, màu, tồn kho và nhãn.
+- `orders`: 3 đơn giả lập ở các trạng thái khác nhau để xem quản trị, khách hàng và tra cứu.
+- `subscribers`: email mẫu đăng ký nhận tin.
 
-- Trang chủ, bộ sưu tập nam/nữ/unisex, tìm kiếm, lọc danh mục, ưu đãi, hàng mới, sắp xếp giá.
-- Chi tiết sản phẩm, màu sắc, kích cỡ, hướng dẫn chọn size, danh sách yêu thích.
-- Giỏ hàng lưu trong localStorage; chỉnh số lượng, xóa sản phẩm, tính phí vận chuyển.
-- Đặt hàng **COD**. Máy chủ tự tính giá, xác thực biến thể, kiểm tra và trừ tồn kho trong cùng giao dịch SQLite.
-- `WELCOME10`: giảm 10%, tối đa 100.000đ. Vận chuyển 30.000đ, miễn phí khi tạm tính từ 699.000đ trước giảm giá.
-- Tra cứu bằng mã đơn + số điện thoại; không công khai danh sách đơn hoặc thông tin khách hàng.
-- Lưu email đăng ký nhận tin, chưa kết nối dịch vụ gửi email.
+Ví dụ tra cứu dữ liệu mẫu: mã `MS-DEMO0001`, số điện thoại `0900000001`. Toàn bộ tên, địa chỉ, số điện thoại và email trong JSON là dữ liệu giả lập.
 
-**Người bán**
+JSON được import trực tiếp vào server bundle. Khi chạy, ứng dụng sao chép dữ liệu sang bộ nhớ; **không tạo thư mục, không ghi file JSON/SQLite và không dùng `/tmp` để lưu dữ liệu**. `DATABASE_PATH` cũ không còn được sử dụng. File SQLite cũ không bị xóa hoặc tự chuyển đổi.
 
-- Đăng nhập, đăng xuất, bảo vệ cả trang và API quản trị.
-- Tổng quan doanh thu từ đơn **hoàn thành**, biểu đồ và trạng thái đơn trong 7/30/90 ngày.
-- Thêm, sửa, xóa sản phẩm; quản lý danh mục, giá, ảnh (URL hoặc đường dẫn), size, màu, nhãn và tổng tồn kho.
-- Xem chi tiết đơn, tìm kiếm, lọc trạng thái, xuất CSV (có xử lý công thức CSV).
-- Chuyển trạng thái: Chờ xác nhận → Đã xác nhận → Đang giao → Hoàn thành.
-- Hủy khi chờ xác nhận hoặc đã xác nhận; hoàn tồn kho một lần. Đơn đang giao/hoàn thành/đã hủy không được hủy lại.
-- Danh sách khách hàng được tổng hợp theo số điện thoại và chi tiêu từ đơn hoàn thành.
+Thêm/sửa/xóa sản phẩm, đặt/hủy đơn, thay đổi tồn kho và đăng ký nhận tin chỉ mô phỏng trong bộ nhớ của từng instance. Những thay đổi này **không ghi lại vào JSON**, mất khi tiến trình khởi động lại hoặc deploy, và **không đồng bộ giữa các instance Vercel**. Vì vậy một đơn vừa tạo có thể không tra cứu được nếu yêu cầu sau tới instance khác. Đây là bản demo, chưa dùng để nhận đơn thật. Muốn thay đổi dữ liệu mặc định trên mọi instance, sửa JSON rồi build/deploy lại.
 
-## Cấu trúc chính
+Giỏ hàng và yêu thích vẫn lưu trong localStorage của trình duyệt. Khách hàng trên trang quản trị được tổng hợp từ đơn hàng.
+
+## Chạy trên Vercel
+
+Dự án dùng cấu hình Next.js mặc định, build bằng `npm run build`, chọn Node.js 24.x. Không cần cấu hình database. Bản demo dùng tài khoản mặc định khi không khai báo biến môi trường.
+
+Có thể đặt `ADMIN_EMAIL`, `ADMIN_PASSWORD` và `SESSION_SECRET` trong môi trường Vercel để dùng thông tin riêng. Phiên đăng nhập là cookie ký HMAC, HttpOnly, SameSite=Lax, hết hạn sau 24 giờ và tự bật Secure trên Vercel; không cần file hay bảng sessions. Nếu đặt `SESSION_SECRET`, dùng cùng giá trị cho mọi instance. Nếu bỏ trống, khóa ký được suy ra từ thông tin quản trị demo.
+
+Đăng xuất xóa cookie trên trình duyệt hiện tại; chế độ demo chưa có danh sách thu hồi token phía server. Đổi `SESSION_SECRET` (hoặc mật khẩu nếu không đặt secret riêng), rồi khởi động/deploy lại để vô hiệu hóa các phiên cũ. Giới hạn tần suất cũng chỉ nằm trong bộ nhớ từng instance.
+
+Không có thao tác publish/deploy/push tự động trong dự án.
+
+## Chức năng demo
+
+- Cửa hàng: bộ sưu tập nam/nữ/unisex, tìm kiếm, lọc, sắp xếp giá, chi tiết sản phẩm, size/màu, giỏ hàng và yêu thích.
+- Đặt COD giả lập: máy chủ tính giá, kiểm tra biến thể và tổng tồn kho; cập nhật tồn kho cùng đơn hàng trong một thao tác đồng bộ, hoàn tác nếu thất bại.
+- `WELCOME10`: giảm 10%, tối đa 100.000đ. Vận chuyển 30.000đ, miễn phí từ 699.000đ trước giảm giá.
+- Tra cứu bằng mã đơn và số điện thoại; API danh sách đơn chỉ dành cho quản trị.
+- Quản trị: tổng quan, CRUD sản phẩm, xử lý đơn, xuất CSV và danh sách khách hàng.
+- Chờ xác nhận → Đã xác nhận → Đang giao → Hoàn thành. Chỉ hủy khi chờ/đã xác nhận, hoàn tồn kho một lần.
+- Đăng ký nhận tin giả lập; chưa kết nối gửi email, thanh toán hoặc vận chuyển.
+
+## Cấu trúc và thay database sau này
 
 ```text
+src/data/db.json       Dữ liệu mẫu đóng gói cùng ứng dụng
+src/lib/db.ts          Lớp truy cập dữ liệu mock, CRUD, transaction, rate limit
+src/lib/auth.ts        Tài khoản demo/biến môi trường và cookie phiên đã ký
+src/lib/types.ts       Kiểu dữ liệu sản phẩm, đơn hàng
+src/lib/validation.ts  Xác thực sản phẩm ở máy chủ
 src/app/(store)/       Các trang dành cho người mua
-src/app/admin/         Giao diện đăng nhập và quản trị
-src/app/api/           Route Handlers cho sản phẩm, đơn, phiên đăng nhập, nhận tin
-src/components/       Thành phần giao diện mua sắm
-src/components/admin/ Thành phần quản trị, biểu mẫu và hộp thoại
-src/lib/db.ts         SQLite schema, truy vấn và khởi tạo dữ liệu
-src/lib/auth.ts       Phiên đăng nhập và kiểm tra nguồn yêu cầu
-src/lib/validation.ts Xác thực sản phẩm ở máy chủ
-src/lib/seed.ts       8 sản phẩm mẫu
-public/images/        Ảnh được lưu cục bộ
-public/fonts/         DM Sans và Playfair Display lưu cục bộ
-artifacts/            Ảnh kiểm chứng giao diện
+src/app/admin/         Giao diện quản trị
+src/app/api/           API sản phẩm, đơn hàng, đăng nhập và nhận tin
+public/images/        Ảnh cục bộ
+public/fonts/         Font cục bộ
 ```
 
-## Dữ liệu & vận hành
-
-- File mặc định: `data/maison.sqlite`. Đổi bằng `DATABASE_PATH`.
-- Lần chạy đầu khởi tạo sản phẩm và tài khoản từ biến môi trường. Các lần sau giữ nguyên dữ liệu.
-- Đổi biến `ADMIN_PASSWORD` không thay đổi tài khoản đã tồn tại. Có thể dùng `npm run admin:reset` để cập nhật tài khoản từ `.env.local`, đồng thời vô hiệu hóa các phiên đăng nhập cũ.
-- SQLite dùng WAL. Sao lưu nhất quán bằng SQLite backup API hoặc dừng tiến trình trước khi sao chép; không chỉ sao chép `.sqlite` khi còn giao dịch trong WAL.
-- Tồn kho hiện quản lý tổng theo sản phẩm, chưa tách theo từng cặp màu/size.
-- Tệp SQLite yêu cầu ổ đĩa bền vững, chạy một instance Node.js. Nếu mở rộng nhiều instance/serverless cần chuyển lớp dữ liệu sang PostgreSQL hoặc dịch vụ tương đương.
-- Giá, sản phẩm và ảnh là dữ liệu mẫu; cần thay bằng danh mục và hình ảnh bán hàng thực tế. Tên cửa hàng, chính sách, kênh liên hệ nằm trong các component/trang tương ứng.
-- Chưa tích hợp cổng thanh toán online, hãng vận chuyển, gửi email/SMS hoặc tài khoản đăng nhập người mua. Quy trình hiện tại là đặt COD và cửa hàng tự xác nhận/giao hàng.
+Các trang và API gọi các hàm như `getProducts`, `getOrder`, `saveProduct`, `saveOrder`, `transaction` trong `src/lib/db.ts`, không chứa SQL. Khi nối database thật, thay lớp này bằng adapter lưu trữ bền vững, chuyển các bên gọi sang `async/await` nếu cần, và dùng giao dịch database cho đơn hàng/tồn kho. Đồng thời thay tài khoản demo và rate limit bằng cơ chế production phù hợp.
 
 ## Kiểm chứng
 
@@ -84,16 +83,16 @@ npx playwright install --with-deps chromium
 npm run test:e2e
 ```
 
-Playwright khởi chạy bản production ở cổng **3187**, tạo một SQLite riêng trong thư mục tạm, không dùng dữ liệu cửa hàng. Kiểm tra thực tế: luồng mua/tra cứu đơn, localStorage, quyền quản trị, giá máy chủ, biến thể, tồn kho, hủy hoàn kho, CRUD sản phẩm, xuất CSV, đăng ký nhận tin và bố cục responsive. Ảnh chụp được ghi vào `artifacts/`.
+Playwright chạy bản production ở cổng **3187**. Mỗi tiến trình bắt đầu từ JSON gốc; test không ghi vào dữ liệu mẫu hay SQLite cũ. Cấu hình test cố ý đặt `DATABASE_PATH` vào thư mục không ghi được để kiểm tra ứng dụng không còn phụ thuộc đường dẫn đó.
 
-Trong môi trường thực hiện dự án này, Chromium cần đường dẫn thư viện có sẵn:
+Các kiểm tra bao gồm cửa hàng, đặt/tra cứu đơn, giá/tồn kho, hủy hoàn kho, quyền quản trị, CRUD, xuất CSV, nhận tin và hydration. Ảnh kiểm chứng nằm trong `artifacts/`.
+
+Nếu môi trường thiếu thư viện Chromium nhưng có bộ thư viện đã chuẩn bị:
 
 ```bash
-LD_LIBRARY_PATH=/tmp/kimngan-schedule-browser-libs/extracted/usr/lib/x86_64-linux-gnu npm run test:e2e
+LD_LIBRARY_PATH=/tmp/satthep-browser-libs/root/usr/lib/x86_64-linux-gnu npm run test:e2e
 ```
-
-Trên máy có đủ thư viện Chromium, chỉ cần `npm run test:e2e`.
 
 ## Nguồn tài nguyên
 
-Ảnh mẫu từ [Unsplash](https://unsplash.com/license); ID ảnh được ghi trong `ASSETS.md`. Font [DM Sans](https://github.com/google/fonts/tree/main/ofl/dmsans) và [Playfair Display](https://github.com/google/fonts/tree/main/ofl/playfairdisplay) theo SIL Open Font License. Icon dùng Lucide (ISC). Mọi tài nguyên hiển thị chính được phục vụ cục bộ, không cần gọi Google Fonts hoặc Unsplash khi người dùng mở trang.
+Ảnh mẫu từ [Unsplash](https://unsplash.com/license), ID ghi trong `ASSETS.md`. Font [DM Sans](https://github.com/google/fonts/tree/main/ofl/dmsans) và [Playfair Display](https://github.com/google/fonts/tree/main/ofl/playfairdisplay) theo SIL Open Font License. Icon dùng Lucide (ISC). Ảnh và font được phục vụ cục bộ.

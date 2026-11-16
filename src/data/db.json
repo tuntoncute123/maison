@@ -1,0 +1,207 @@
+{
+  "products": [
+    {
+      "id": "linen-shirt",
+      "name": "Áo sơ mi Linen Essential",
+      "category": "Áo sơ mi",
+      "gender": "men",
+      "price": 549000,
+      "originalPrice": 699000,
+      "image": "/images/shirt.jpg",
+      "description": "Một thiết kế dành cho những ngày thật nhẹ nhàng. Chất linen pha cotton thoáng mát, phom regular thoải mái cùng đường may tỉ mỉ. Dễ dàng kết hợp với quần âu hoặc denim để hoàn thiện phong cách mỗi ngày. Giặt nhẹ dưới 30°C, phơi trong bóng râm.",
+      "colors": ["#d9cbb7", "#f3f0e9", "#343a3d"],
+      "sizes": ["S", "M", "L", "XL"],
+      "stock": 48,
+      "badge": "BÁN CHẠY",
+      "featured": true
+    },
+    {
+      "id": "everyday-jacket",
+      "name": "Áo khoác Everyday",
+      "category": "Áo khoác",
+      "gender": "unisex",
+      "price": 890000,
+      "originalPrice": 0,
+      "image": "/images/blazer.jpg",
+      "description": "Lớp áo hoàn hảo cho những ngày chuyển mùa. Phom dáng thoải mái, chất vải bền đẹp, túi tiện dụng và các chi tiết hoàn thiện tinh tế. Một món đồ cơ bản luôn có chỗ trong tủ đồ của bạn.",
+      "colors": ["#b2a18a", "#303530", "#d5c9b6"],
+      "sizes": ["S", "M", "L", "XL"],
+      "stock": 24,
+      "badge": "MỚI",
+      "featured": true
+    },
+    {
+      "id": "tailored-pants",
+      "name": "Quần âu Tailored Fit",
+      "category": "Quần",
+      "gender": "women",
+      "price": 650000,
+      "originalPrice": 790000,
+      "image": "/images/trousers.jpg",
+      "description": "Phom ống suông thanh lịch tôn dáng, cạp cao vừa vặn và chất vải mềm rủ tự nhiên. Từ một buổi họp đến cuộc hẹn cuối tuần, Tailored Fit luôn mang lại cảm giác tự tin và thoải mái.",
+      "colors": ["#bca88c", "#32312e", "#eee6db"],
+      "sizes": ["S", "M", "L"],
+      "stock": 35,
+      "badge": "",
+      "featured": true
+    },
+    {
+      "id": "muse-dress",
+      "name": "Đầm The Muse",
+      "category": "Đầm & Chân váy",
+      "gender": "women",
+      "price": 790000,
+      "originalPrice": 990000,
+      "image": "/images/dress.jpg",
+      "description": "Nữ tính, bay bổng và đầy cuốn hút. The Muse mang đến phom dáng nhẹ nhàng với những chi tiết tinh tế, lý tưởng cho buổi hẹn hay những dịp đặc biệt. Vải mềm, thoáng và có lớp lót.",
+      "colors": ["#902e34", "#e8d8c8", "#262626"],
+      "sizes": ["S", "M", "L"],
+      "stock": 18,
+      "badge": "YÊU THÍCH",
+      "featured": true
+    },
+    {
+      "id": "cotton-tee",
+      "name": "Áo thun Cotton Signature",
+      "category": "Áo thun",
+      "gender": "unisex",
+      "price": 290000,
+      "originalPrice": 350000,
+      "image": "/images/tshirt.jpg",
+      "description": "100% cotton với bề mặt mềm mại và phom dáng thoải mái. Cổ áo dệt bo giữ phom, đường may chắc chắn. Món đồ cơ bản giúp bạn phối đồ dễ dàng trong mọi ngày.",
+      "colors": ["#eeeae2", "#252525", "#9dafa4"],
+      "sizes": ["S", "M", "L", "XL"],
+      "stock": 85,
+      "badge": "ESSENTIAL",
+      "featured": false
+    },
+    {
+      "id": "city-bag",
+      "name": "Balo City Explorer",
+      "category": "Phụ kiện",
+      "gender": "unisex",
+      "price": 490000,
+      "originalPrice": 0,
+      "image": "/images/bag.jpg",
+      "description": "Gọn gàng mà vẫn đủ cho mọi hành trang. Thiết kế nhiều ngăn tiện dụng, dây đeo điều chỉnh êm ái và chất liệu canvas bền đẹp. Đồng hành cùng bạn từ phố thị đến những chuyến đi.",
+      "colors": ["#b6986c", "#2b3032"],
+      "sizes": ["Freesize"],
+      "stock": 30,
+      "badge": "",
+      "featured": false
+    },
+    {
+      "id": "modern-blouse",
+      "name": "Áo kiểu Modern Muse",
+      "category": "Áo sơ mi",
+      "gender": "women",
+      "price": 459000,
+      "originalPrice": 590000,
+      "image": "/images/blouse.jpg",
+      "description": "Chiếc áo mang nét thanh lịch đương đại với đường cắt tinh tế. Chất vải nhẹ nhàng trên da, phom dáng dễ mặc cho ngày đi làm hay những buổi dạo phố.",
+      "colors": ["#e8d9c7", "#f1efea"],
+      "sizes": ["S", "M", "L"],
+      "stock": 22,
+      "badge": "MỚI",
+      "featured": false
+    },
+    {
+      "id": "urban-outfit",
+      "name": "Áo khoác Urban Classic",
+      "category": "Áo khoác",
+      "gender": "men",
+      "price": 1290000,
+      "originalPrice": 1590000,
+      "image": "/images/men.jpg",
+      "description": "Lấy cảm hứng từ phong cách thành thị hiện đại, Urban Classic có đường cắt chỉn chu, cấu trúc vừa vặn và chất vải cao cấp. Dành cho những người yêu vẻ đẹp vượt thời gian.",
+      "colors": ["#4a4540", "#c2b8aa"],
+      "sizes": ["M", "L", "XL"],
+      "stock": 15,
+      "badge": "PREMIUM",
+      "featured": false
+    }
+  ],
+  "orders": [
+    {
+      "id": "MS-DEMO0001",
+      "customerName": "Khách mẫu An",
+      "email": "demo1@example.com",
+      "phone": "0900000001",
+      "address": "123 Đường Mẫu, Phường Mẫu, TP. Hồ Chí Minh",
+      "note": "Đơn hàng giả lập để xem giao diện, không giao hàng.",
+      "items": [
+        {
+          "productId": "linen-shirt",
+          "name": "Áo sơ mi Linen Essential",
+          "image": "/images/shirt.jpg",
+          "size": "S",
+          "color": "#d9cbb7",
+          "quantity": 1,
+          "price": 549000
+        }
+      ],
+      "subtotal": 549000,
+      "shipping": 30000,
+      "discount": 0,
+      "total": 579000,
+      "status": "pending",
+      "createdAt": "2026-11-16T02:30:00.000Z"
+    },
+    {
+      "id": "MS-DEMO0002",
+      "customerName": "Khách mẫu Bình",
+      "email": "demo2@example.com",
+      "phone": "0900000002",
+      "address": "123 Đường Mẫu, Phường Mẫu, TP. Hồ Chí Minh",
+      "note": "Đơn hàng giả lập để xem giao diện, không giao hàng.",
+      "items": [
+        {
+          "productId": "muse-dress",
+          "name": "Đầm The Muse",
+          "image": "/images/dress.jpg",
+          "size": "S",
+          "color": "#902e34",
+          "quantity": 1,
+          "price": 790000
+        }
+      ],
+      "subtotal": 790000,
+      "shipping": 0,
+      "discount": 0,
+      "total": 790000,
+      "status": "shipping",
+      "createdAt": "2026-11-15T06:00:00.000Z"
+    },
+    {
+      "id": "MS-DEMO0003",
+      "customerName": "Khách mẫu Chi",
+      "email": "demo3@example.com",
+      "phone": "0900000003",
+      "address": "123 Đường Mẫu, Phường Mẫu, TP. Hồ Chí Minh",
+      "note": "Đơn hàng giả lập để xem giao diện, không giao hàng.",
+      "items": [
+        {
+          "productId": "everyday-jacket",
+          "name": "Áo khoác Everyday",
+          "image": "/images/blazer.jpg",
+          "size": "S",
+          "color": "#b2a18a",
+          "quantity": 1,
+          "price": 890000
+        }
+      ],
+      "subtotal": 890000,
+      "shipping": 0,
+      "discount": 0,
+      "total": 890000,
+      "status": "completed",
+      "createdAt": "2026-11-14T08:00:00.000Z"
+    }
+  ],
+  "subscribers": [
+    {
+      "email": "demo@example.com",
+      "createdAt": "2026-11-14T08:00:00.000Z"
+    }
+  ]
+}
